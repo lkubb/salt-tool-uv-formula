@@ -1,0 +1,6 @@
+---
+values:
+  lookup:
+    typ: unknown
+    kernel: linux
+    libc: gnu

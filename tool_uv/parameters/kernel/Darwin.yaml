@@ -1,0 +1,6 @@
+---
+values:
+  lookup:
+    typ: apple
+    kernel: darwin
+    libc: ''

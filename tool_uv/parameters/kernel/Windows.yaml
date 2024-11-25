@@ -1,0 +1,6 @@
+---
+values:
+  lookup:
+    typ: pc
+    kernel: windows
+    libc: msvc

@@ -1,0 +1,33 @@
+# vim: ft=yaml
+#
+# Set default values.
+---
+values:
+  lookup:
+    pkg:
+      name: uv
+    paths:
+      confdir: '.config/uv'
+      conffile: 'uv.toml'
+      xdg_dirname: 'uv'
+      xdg_conffile: 'uv.toml'
+      bin: /usr/local/bin/uv
+      global_conf: /etc/uv/uv.toml
+    rootgroup: root
+    pkg_src:
+      latest: https://github.com/astral-sh/uv/releases/latest
+      source: https://github.com/astral-sh/uv/releases/download/{version}/uv-{arch}-{typ}-{kernel_libc}.tar.gz  # yamllint disable-line rule:line-length
+      source_hash: https://github.com/astral-sh/uv/releases/download/{version}/uv-{arch}-{typ}-{kernel_libc}.tar.gz.sha256  # yamllint disable-line rule:line-length
+  config: {}
+  install_method: releases
+  tools: {}
+  tofs:
+    files_switch:
+      - G@id|U@users
+      - id
+      - C@roles|U@users
+      - roles
+      - G@os_family|U@users
+      - os_family
+      - U@users
+...

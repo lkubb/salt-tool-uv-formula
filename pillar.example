@@ -1,0 +1,150 @@
+# vim: ft=yaml
+# yamllint disable rule:comments-indentation
+---
+######################################################################
+# Mind that this is to be read as an overview of available
+# settings which can be set in many different ways, not only
+# by providing pillar values.
+# The different sources will be merged. For further information,
+# please see the docs, https://lkubb.github.io/saltext-formula/
+# as well as the configured default sources in `parameters/map_jinja.yaml`.
+######################################################################
+
+# Apart from the various source files, there are two independent source trees
+# for user-specific configuration.
+# Generally tool_uv > tool_global.
+# `tool_global` focuses on specific users, of which most values
+# will be respected by all formulae in the `tool` suite:
+tool_global:
+  users:
+
+      # The following is global configuration for the user named `user`.
+    user:
+
+        # Force the usage of XDG directories for this user.
+      xdg: true
+
+        # Put shell completions into this directory, relative to user home.
+      completions: '.config/zsh/completions'
+
+        # Sync this user's config from a dotfiles repo.
+        # The available paths and their priority can be found in the
+        # rendered `config/sync.sls` file.
+        # Note that for user matching to work, you need to install `saltext-formula`.
+        # Overview in descending priority:
+        # salt://dotconfig/id/<minion_id>/users/<user>/uv
+        # salt://dotconfig/id/<minion_id>/uv
+        # salt://dotconfig/roles/<each custom `role` config>/users/uv
+        # salt://dotconfig/roles/<each custom `role` config>/uv
+        # salt://dotconfig/os_family/<os_family>/users/<user>/uv
+        # salt://dotconfig/os_family/<os_family>/uv
+        # salt://dotconfig/users/<user>/uv
+        # salt://dotconfig/default/uv
+      dotconfig:              # can be bool or mapping
+        file_mode: '0600'     # default: keep destination or salt umask (new)
+        dir_mode: '0700'      # default: 0700
+        clean: false          # delete files in target. default: false
+
+        # Persist environment variables used by this formula for this
+        # user to this file (will be appended to a file relative to $HOME)
+      persistenv: '.config/zsh/zshenv'
+
+        # Add runcom hooks specific to this formula to this file
+        # for this user (will be appended to a file relative to $HOME)
+      rchook: '.config/zsh/zshrc'
+
+        # This user's configuration for this formula. Will be overridden by
+        # user-specific configuration in `tool_uv:users`.
+        # Set this to `false` to disable configuration for this user.
+      uv:
+          # Per-user uv configuration
+        config: {}
+          # A mapping of tools to install for this user to parameters for
+          # `uv_tool.installed` state.
+        tools: {}
+
+tool_uv:
+
+    # Specify an explicit version (works on most Linux distributions) or
+    # keep the packages updated to their latest version on subsequent runs
+    # by leaving version empty or setting it to 'latest'
+    # (again for Linux, brew does that anyways).
+  version: latest
+    # Global uv configuration
+  config: {}
+    # Choose how uv is installed. Either `releases` (from GitHub releases, default)
+    # or `pkg` (requires a `uv` package to be installable via the package manager,
+    # works with Homebrew at least)
+  install_method: releases
+    # A mapping of tools to install globally to parameters for `uv_tool.installed`
+    # state.
+  tools: {}
+
+    # Default formula configuration for all users.
+  defaults:
+    config: default value for all users
+
+    # User configuration can also be specified here in
+    # `tool_uv:users`. It will override
+    # configuration sourced from `tool_global:users`.
+  users:
+    user:
+      persistenv: '.bash_profile'
+      uv:
+        config: this overrides config from tool_globl:users
+
+######################################################################
+# The following settings define default values for this formula,
+# depending on different grains. You should not have to modify them
+# in most cases. For a full overview, see the different files
+# in `parameters`.
+######################################################################
+  lookup:
+    pkg:
+      name: uv
+    rootgroup: root
+    paths:
+      confdir: '.config/uv'
+      conffile: 'uv.toml'
+      xdg_dirname: 'uv'
+      xdg_conffile: 'uv.toml'
+      bin: /usr/local/bin/uv
+      global_conf: /etc/uv/uv.toml
+    pkg_src:
+      latest: https://github.com/astral-sh/uv/releases/latest
+      source: https://github.com/astral-sh/uv/releases/download/{version}/uv-{arch}-{typ}-{kernel_libc}.tar.gz  # yamllint disable-line rule:line-length
+      source_hash: https://github.com/astral-sh/uv/releases/download/{version}/uv-{arch}-{typ}-{kernel_libc}.tar.gz.sha256  # yamllint disable-line rule:line-length
+
+######################################################################
+# The following settings influence which source paths are considered
+# when managing files (TOFS pattern).
+# See docs/TOFS_pattern.rst and https://lkubb.github.io/saltext-formula/
+######################################################################
+  tofs:
+    # The files_switch key serves as a selector for alternative
+    # directories under the formula files directory. See TOFS pattern
+    # doc for more info.
+    # Note: Any value not evaluated by `config.get` will be used literally.
+    # This can be used to set custom paths, as many levels deep as required.
+    files_switch:
+      - any/path/can/be/used/here
+      - id
+      - roles
+      - osfinger
+      - os
+      - os_family
+
+    # All aspects of path/file resolution are customisable using the options below.
+    # This is unnecessary in most cases; there are sensible defaults.
+    # Default path: salt://< path_prefix >/< dirs.files >/< dirs.default >
+    # I.e.: salt://tool_uv/files/default
+    # path_prefix: template_alt
+    # dirs:
+    #   files: files_alt
+    #   default: default_alt
+    # The entries under `source_files` are prepended to the default source files
+    # given for the state
+    source_files:
+      uv config file is managed for user 'user':
+        - 'uv.toml'
+        - 'uv.toml.jinja'
