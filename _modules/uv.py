@@ -103,7 +103,7 @@ tool_dir
     The target directory for installed tool virtual environments.
     Effectively sets the ``UV_TOOL_DIR`` variable.
     Used by default when installing system-wide packages, where it is
-    set to ``/opt/uv``.
+    set to ``/opt/uv/tools``.
 """
 
 import logging
@@ -207,7 +207,7 @@ def _uv_tool(
         system = True
     if system:
         tool_bin_dir = tool_bin_dir or "/usr/local/bin"
-        tool_dir = tool_dir or "/opt/uv"
+        tool_dir = tool_dir or "/opt/uv/tools"
     if tool_bin_dir is not None:
         env["UV_TOOL_BIN_DIR"] = tool_bin_dir
     if tool_dir is not None:
@@ -231,7 +231,7 @@ def tool_is_installed(name, **kwargs):
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -328,7 +328,7 @@ def tool_is_outdated(
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -413,7 +413,7 @@ def tool_install(
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -470,7 +470,7 @@ def tool_list(name=None, system=None, user=None, **kwargs):
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -543,7 +543,7 @@ def tool_remove(name, **kwargs):
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -567,7 +567,7 @@ def tool_remove_all(**kwargs):
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -608,7 +608,7 @@ def tool_upgrade(name, **kwargs):
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -645,7 +645,7 @@ def tool_upgrade_all(**kwargs):
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 

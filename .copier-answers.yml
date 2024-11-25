@@ -18,8 +18,9 @@ has_service: false
 has_xdg: true
 lookup:
   paths:
-    bin: /usr/local/bin/uv
+    bin_dir: /usr/local/bin
     global_conf: /etc/uv/uv.toml
+    install_dir: /opt/uv/release
   pkg_src:
     latest: https://github.com/astral-sh/uv/releases/latest
     source: https://github.com/astral-sh/uv/releases/download/{version}/uv-{arch}-{typ}-{kernel_libc}.tar.gz

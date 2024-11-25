@@ -108,8 +108,9 @@ tool_uv:
       conffile: 'uv.toml'
       xdg_dirname: 'uv'
       xdg_conffile: 'uv.toml'
-      bin: /usr/local/bin/uv
+      bin_dir: /usr/local/bin
       global_conf: /etc/uv/uv.toml
+      install_dir: /opt/uv/release
     pkg_src:
       latest: https://github.com/astral-sh/uv/releases/latest
       source: https://github.com/astral-sh/uv/releases/download/{version}/uv-{arch}-{typ}-{kernel_libc}.tar.gz  # yamllint disable-line rule:line-length

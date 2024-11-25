@@ -25,7 +25,10 @@ uv is removed:
 
 uv is removed:
   file.absent:
-    - name: {{ uv.lookup.paths.bin }}
+    - names:
+      - {{ uv.lookup.paths.install_dir }}
+      - {{ uv.lookup.paths.bin_dir | path_join("uv") }}
+      - {{ uv.lookup.paths.bin_dir | path_join("uvx") }}
     - require:
       - sls: {{ sls_config_clean }}
 

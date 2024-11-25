@@ -80,7 +80,7 @@ def installed(
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -291,7 +291,7 @@ def latest(
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 
@@ -332,7 +332,7 @@ def absent(name, system=None, user=None, **kwargs):
     system
         Whether to operate on globally installed tools.
         Effectively, this defaults tool_bin_dir to ``/usr/local/bin`` and
-        ``tool_dir`` to ``/opt/uv``.
+        ``tool_dir`` to ``/opt/uv/tools``.
         If this command is executed as root and no ``user`` is specified,
         defaults to true, otherwise to false.
 

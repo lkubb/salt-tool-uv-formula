@@ -28,14 +28,29 @@ uv is installed:
 {%-   endif %}
 
 uv is installed:
-  file.managed:
-    - name: {{ uv.lookup.paths.bin }}
+  archive.extracted:
+    - name: {{ uv.lookup.paths.install_dir }}
     - source: {{ uv.lookup.pkg_src.source.format(version=version, arch=uv.lookup.arch, typ=uv.lookup.typ, kernel_libc=kernel_libc) }}
     - source_hash: {{ uv.lookup.pkg_src.source_hash.format(version=version, arch=uv.lookup.arch, typ=uv.lookup.typ, kernel_libc=kernel_libc) }}
+    # just dump the files
+    - options: --strip-components=1
+    # this is needed because of the above
+    - enforce_toplevel: false
+    - overwrite: true
     - user: root
     - group: {{ uv.lookup.rootgroup }}
-    - mode: '0755'
-    - makedirs: true
+    - file_mode: '0755'
+    - unless:
+      - >
+          {{ uv.lookup.paths.install_dir | path_join("uv") | json }} --version | grep '{{ version }}'
+  file.symlink:
+    - names:
+      - {{ uv.lookup.paths.bin_dir | path_join("uv") }}:
+        - target: {{ uv.lookup.paths.install_dir | path_join("uv") }}
+      - {{ uv.lookup.paths.bin_dir | path_join("uvx") }}:
+        - target: {{ uv.lookup.paths.install_dir | path_join("uvx") }}
+    - require:
+      - archive: {{ uv.lookup.paths.install_dir }}
     - require_in:
       - uv setup is completed
 
