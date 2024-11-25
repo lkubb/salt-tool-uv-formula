@@ -13,7 +13,9 @@ include:
   - {{ sls_package_install }}
 
 
-{%- for user in uv.users | selectattr("completions", "defined") | selectattr("completions") %}
+{#- Homebrew manages the completions already. #}
+{%- if uv.install_method != "pkg" or grains.kernel != "Darwin" %}
+{%-   for user in uv.users | selectattr("completions", "defined") | selectattr("completions") %}
 
 Completions directory for uv is available for user '{{ user.name }}':
   file.directory:
@@ -33,4 +35,5 @@ uv shell completions are available for user '{{ user.name }}':
     - require:
       - uv is installed
       - Completions directory for uv is available for user '{{ user.name }}'
-{%- endfor %}
+{%-   endfor %}
+{%- endif %}
