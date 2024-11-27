@@ -17,6 +17,9 @@ uv global config is absent:
 uv config file is cleaned for user '{{ user.name }}':
   file.absent:
     - name: {{ user["_uv"].conffile }}
+{%- endfor %}
+
+{%- for user in uv.users | selectattr("dotconfig", "defined") | selectattr("dotconfig") %}
 
 uv config dir is absent for user '{{ user.name }}':
   file.absent:
