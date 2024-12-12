@@ -123,7 +123,7 @@ __virtualname__ = "uv"
 log = logging.getLogger(__name__)
 
 LIST_REGEX = re.compile(
-    r"^(?P<tool>\S+)\s+v?(?P<version>\S+)\s+\[required: (?P<req>[^\]]*)]\s+\((?P<venv>.*)\)$"
+    r"^(?P<tool>\S+)\s+v?(?P<version>\S+)(?:\s+\[required: (?P<req>[^\]]*)\])?\s+\((?P<venv>.*)\)$"
 )
 
 
